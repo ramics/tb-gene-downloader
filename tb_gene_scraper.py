@@ -27,10 +27,14 @@ sys.stderr.write(url + "\n")
 response = urllib2.urlopen(url)
 tree = html.fromstring(response.read())
 
-gene = tree.xpath("//input[@name='gene']/@value")[0]
-start = tree.xpath("//input[@name='start']/@value")[0]
-end = tree.xpath("//input[@name='end']/@value")[0]
-direction = urllib2.quote(tree.xpath("//input[@name='direction']/@value")[0])
+try:
+    gene = tree.xpath("//input[@name='gene']/@value")[0]
+    start = tree.xpath("//input[@name='start']/@value")[0]
+    end = tree.xpath("//input[@name='end']/@value")[0]
+    direction = urllib2.quote(tree.xpath("//input[@name='direction']/@value")[0])
+except IndexError:
+    sys.stderr.write("Not found\n")
+    exit(0)
 
 if promoter:
     temp = start
